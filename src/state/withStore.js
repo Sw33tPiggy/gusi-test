@@ -2,41 +2,43 @@ import React from "react";
 import { Registry } from "./common/store/registry";
 
 export function withStore(storeName, fill) {
-  const store = Registry.getStore(storeName);
+	const store = Registry.getStore(storeName);
 
-  return function (Component) {
-    return class extends React.Component {
-      static displayName = Component.displayName;
+	return function (Component) {
+		return class extends React.Component {
+			static displayName = Component.displayName;
 
-      constructor(props) {
-        super(props);
+			constructor(props) {
+				super(props);
 
-        this.state = { data: store ? store.data : {} };
+				this.state = { data: store ? store.data : {} };
 
-        this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
-      }
+				this.handleStoreUpdate = this.handleStoreUpdate.bind(this);
+			}
 
-      handleStoreUpdate(data) {
-        this.setState(data);
-      }
+			handleStoreUpdate(data) {
+				console.log(data);
+				this.setState({ data });
+				console.log(this.state);
+			}
 
-      componentDidMount() {
-        store.subscribe(this.handleStoreUpdate);
-      }
+			componentDidMount() {
+				store.subscribe(this.handleStoreUpdate);
+			}
 
-      componentWillUnmount() {
-        store.unsubscribe(this.handleStoreUpdate);
-      }
+			componentWillUnmount() {
+				store.unsubscribe(this.handleStoreUpdate);
+			}
 
-      render() {
-        return (
-          <Component
-            {...this.props}
-            {...fill(this.state.data)}
-            dispatch={Registry.dispatch}
-          />
-        );
-      }
-    };
-  };
+			render() {
+				return (
+					<Component
+						{...this.props}
+						{...fill(this.state.data)}
+						dispatch={Registry.dispatch}
+					/>
+				);
+			}
+		};
+	};
 }
