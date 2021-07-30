@@ -1,9 +1,9 @@
 import React from "react";
 import "./product.scss";
-import {
-	ProductsStore as Store,
-	REMOVE_PRODUCT,
-} from "../../state/stores/ProductsStore";
+import { REMOVE_PRODUCT } from "../../state/stores/ProductsStore";
+import { withStore } from "../../state/withStore";
+
+import { AuthStore } from "../../state/stores/AuthStore";
 
 export class Product extends React.Component {
 	render() {
@@ -33,14 +33,27 @@ export class Product extends React.Component {
 						alt=""
 					/>
 				</div>
-				<button
-					onClick={() => {
-						Store.dispatch(REMOVE_PRODUCT, { id: product.id });
-					}}
-				>
-					x
-				</button>
+				<RemoveButton id={product.id}></RemoveButton>
 			</div>
 		);
 	}
 }
+
+const RemoveButton = withStore(
+	"auth",
+	(data) => data
+)(({ dispatch, isAuthorized, id }) => {
+	if (isAuthorized) {
+		return (
+			<button
+				onClick={() => {
+					dispatch(REMOVE_PRODUCT, { id: id });
+				}}
+			>
+				x
+			</button>
+		);
+	} else {
+		return null;
+	}
+});

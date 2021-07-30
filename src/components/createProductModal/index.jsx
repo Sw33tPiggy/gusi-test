@@ -1,4 +1,3 @@
-import { id } from "postcss-selector-parser";
 import { useState } from "react";
 import "./modal.scss";
 import {
