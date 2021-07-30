@@ -16,7 +16,6 @@ const ProductsStore = new Store("products", {
 		{
 			type: ADD_PRODUCT,
 			action(state, payload) {
-				console.log(payload);
 				const { product } = payload;
 
 				const products = [...state.products, product];
@@ -30,7 +29,6 @@ const ProductsStore = new Store("products", {
 		{
 			type: REMOVE_PRODUCT,
 			action(state, payload) {
-				console.log(state, payload);
 				const { id } = payload;
 
 				const products = [...state.products];

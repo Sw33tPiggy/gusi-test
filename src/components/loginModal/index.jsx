@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./modal.scss";
 import { LOG_IN } from "../../state/stores/AuthStore";
 import { withStore } from "../../state/withStore";
@@ -7,9 +7,11 @@ const Modal = ({ visiable, askToBeClosed, dispatch, isAuthorized }) => {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
 
-	if (isAuthorized) {
-		askToBeClosed();
-	}
+	useEffect(() => {
+		if (isAuthorized) {
+			askToBeClosed();
+		}
+	});
 
 	if (!visiable) {
 		return null;

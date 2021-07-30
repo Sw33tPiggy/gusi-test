@@ -1,15 +1,13 @@
 import { useState } from "react";
 import "./modal.scss";
-import {
-	ProductsStore as Store,
-	ADD_PRODUCT,
-} from "../../state/stores/ProductsStore";
+import { ADD_PRODUCT } from "../../state/stores/ProductsStore";
+import { withStore } from "../../state/withStore";
 
 const validate = (id, desc, price) => {
 	return !!id && !!desc && !!price;
 };
 
-const Modal = ({ visiable, askToBeClosed }) => {
+const Modal = ({ dispatch, visiable, askToBeClosed }) => {
 	const [ID, setID] = useState("");
 	const [desc, setDesc] = useState("");
 	const [price, setPrice] = useState("");
@@ -55,7 +53,7 @@ const Modal = ({ visiable, askToBeClosed }) => {
 				<button
 					onClick={() => {
 						if (validate(ID, desc, price)) {
-							Store.dispatch(ADD_PRODUCT, {
+							dispatch(ADD_PRODUCT, {
 								product: {
 									id: ID,
 									title: title,
@@ -85,4 +83,4 @@ const Modal = ({ visiable, askToBeClosed }) => {
 	);
 };
 
-export default Modal;
+export default withStore("products", (data) => data)(Modal);
