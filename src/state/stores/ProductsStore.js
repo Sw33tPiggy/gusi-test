@@ -30,9 +30,10 @@ const ProductsStore = new Store("products", {
 		{
 			type: REMOVE_PRODUCT,
 			action(state, payload) {
+				console.log(state, payload);
 				const { id } = payload;
 
-				const products = [...state.product];
+				const products = [...state.products];
 				const index = products.findIndex((product) => product.id === id);
 
 				if (index !== -1) {
